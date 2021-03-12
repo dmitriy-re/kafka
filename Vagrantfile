@@ -11,14 +11,14 @@ Vagrant.configure(2) do |config|
 #  end
 
   config.vm.provider "virtualbox" do |v|
-    v.memory = 512
+    v.memory = 4096
     v.cpus = 1
   end
 
   config.vm.define "sys" do |sys|
     sys.vm.network "private_network", ip: "192.168.50.10", virtualbox__intnet: "net1"
     sys.vm.hostname = "sys"
-    sys.vm.provision "shell", path: "sys_script.sh"
+    sys.vm.provision "shell", path: "script_3.sh"
   end
 
 
