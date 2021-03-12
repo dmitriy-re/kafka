@@ -16,7 +16,6 @@ Documentation=man:apachectl(8)
 
 [Service]
 Type=notify
-PIDFile=/var/run/httpd/httpd-%i.pid
 EnvironmentFile=/etc/sysconfig/httpd-%i
 ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND
 ExecReload=/usr/sbin/httpd $OPTIONS -k graceful
@@ -33,6 +32,7 @@ Listen 8101
 Include conf.modules.d/*.conf
 User apache
 Group apache
+PIDFile /var/run/httpd/sample1.pid
 ServerAdmin root@localhost
 ServerName localhost:8101
 <Directory />
@@ -112,6 +112,7 @@ Listen 8102
 Include conf.modules.d/*.conf
 User apache
 Group apache
+PIDFile /var/run/httpd/sample2.pid
 ServerAdmin root@localhost
 ServerName localhost:8102
 <Directory />
