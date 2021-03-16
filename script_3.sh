@@ -1,10 +1,10 @@
 #!/bin/bash
 yum update -y
 yum install epel-release -y
+yum install java-1.8.0-openjdk -y
 sudo useradd kafka -m
 echo kafka1 | passwd kafka --stdin
 usermod -aG wheel kafka
-su -l kafka
 mkdir /home/kafka/Downloads
 mkdir /home/kafka/kafka
 cd /home/kafka/kafka
@@ -30,6 +30,9 @@ Requires=zookeeper.service
 After=zookeeper.service
 
 [Service]
+MemoryLimit=2M
+CPUQuota=30%
+TasksMax=100
 Type=simple
 User=kafka
 ExecStart=/bin/sh -c "/home/kafka/kafka/bin/kafka-server-start.sh /home/kafka/kafka/config/server.properties > /home/kafka/kafka/kafka.log 2>&1"
@@ -39,7 +42,10 @@ Restart=on-abnormal
 [Install]
 WantedBy=multi-user.target' > /etc/systemd/system/kafka.service
 
-chown kafka:kafka /home/kafka/kafka/kafka.log
+chown -R kafka:kafka /home/kafka/kafka
+chown -R kafka:kafka /home/kafka/Downloads
+systemctl daemon-reload
+systemctl start zookeeper
 systemctl start kafka
 systemctl enable kafka
 
